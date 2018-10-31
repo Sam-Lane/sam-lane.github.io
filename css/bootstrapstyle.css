@@ -1,0 +1,13 @@
+/* CSS to change look of bootstrap */
+/*
+.nav-pills>li>a:hover {
+	background-color: #FF6699;
+}
+.nav-pills .open>a, .nav-pills .open>a:active, .nav-pills .open>a:focus{
+	background-color: #FF6699;
+} */
+
+.row {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
