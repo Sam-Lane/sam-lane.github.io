@@ -299,9 +299,7 @@
       ||  navigator.userAgent.match(/BlackBerry/i)
       ||  navigator.userAgent.match(/Windows Phone/i)){
 
-        let part = document.getElementById("particles-js");
-        part.style.display = "none"
-        x.style.overflow-y = "hidden"
+        document.getElementById("particles-js").remove();
       }
     </script>
 
