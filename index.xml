@@ -26,12 +26,11 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/projects/</guid>
-      <description>Gissue Github Pip
+      <description>Gissue   
  A CLI for managing GitHub issues in your project
  Gissue is a CLI program for managing your Github issues for your project in the command line. It allows you to view all issues in a project and create new issues all without leaving your comfy terminal session.
-Shell-Search Github NPM
- Quickly search google and open your browser window from the command line.
- I think I spend more time reading Stackoverflow than I do writing code in my text editor.</description>
+Shell-Search  
+ Quickly search google and open your browser window from the command line.</description>
     </item>
     
   </channel>
