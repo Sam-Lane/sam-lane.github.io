@@ -1,37 +1,15 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Sam Lane</title>
+    <title>Sam</title>
     <link>/</link>
-    <description>Recent content on Sam Lane</description>
+    <description>Recent content on Sam</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright> </copyright>
-    <lastBuildDate>Sat, 13 Jul 2019 11:20:31 +0100</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Friendzone</title>
-      <link>/htb/friendzone/</link>
-      <pubDate>Sat, 13 Jul 2019 11:20:31 +0100</pubDate>
-      
-      <guid>/htb/friendzone/</guid>
-      <description>HTB Writeup: friendzone Introduction Friendzone was my third box to own on HackTheBox. I learnt alot from this box. Such as exploiting Local File Inclusion (LFI) to have PHP execute my reverse shell, to understanding more about DNS and the ways python imports libraries.
-Getting User nmap Running nmap on a server will give a lot of information on what ports are open on the machine and what services those ports belong to.</description>
-    </item>
-    
-    <item>
-      <title>&#34;Hello_World&#34;</title>
-      <link>/posts/hello-world/</link>
-      <pubDate>Wed, 10 Jul 2019 11:38:05 +0100</pubDate>
-      
-      <guid>/posts/hello-world/</guid>
-      <description>So I have started a blog. Here you should find write ups on CTFs and machines on HackTheBox and my experiences in the industry as try to improve my skills in cyber security.
-I want to start documenting and recording things I learn to help others but also to serve as notes for myself.
-I&amp;rsquo;m just starting out and very much a noob so do not expect too much.</description>
-    </item>
     
     <item>
       <title>About Me</title>
@@ -39,7 +17,9 @@ I&amp;rsquo;m just starting out and very much a noob so do not expect too much.<
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/about/</guid>
-      <description>Hi I&amp;rsquo;m Sam - a budding hacker that likes to build technology and break it.</description>
+      <description>I&amp;rsquo;m Sam - a budding hacker that likes to build technology and break it.
+   
+ </description>
     </item>
     
     <item>
@@ -52,7 +32,8 @@ I&amp;rsquo;m just starting out and very much a noob so do not expect too much.<
  A CLI for managing GitHub issues in your project
  Gissue is a CLI program for managing your Github issues for your project in the command line. It allows you to view all issues in a project and create new issues all without leaving your comfy terminal session.
 Shell-Search  
- Quickly search google and open your browser window from the command line.</description>
+ Quickly search google and open your browser window from the command line.
+ I think I spend more time reading Stackoverflow than I do writing code in my text editor.</description>
     </item>
     
   </channel>
