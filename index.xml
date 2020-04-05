@@ -7,9 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright> </copyright>
+    <lastBuildDate>Thu, 11 Jul 2019 11:20:31 +0100</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Friendzone</title>
+      <link>/htb/friendzone/</link>
+      <pubDate>Thu, 11 Jul 2019 11:20:31 +0100</pubDate>
+      
+      <guid>/htb/friendzone/</guid>
+      <description>HTB Writeup: friendzone Introduction Friendzone was my third box to own on HackTheBox. I learnt alot from this box. Such as exploiting Local File Inclusion (LFI) to have PHP execute my reverse shell, to understanding more about DNS and the ways python imports libraries.
+Enumeration nmap Running nmap on a server will give a lot of information on what ports are open on the machine and what services those ports belong to.</description>
+    </item>
     
     <item>
       <title>About Me</title>
