@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Using Hashcat and a bit of Bash to generate password lists - Sammy</title><meta name="Description" content="Create a custom password list for use with tools such as smb_login and hydra"><meta property="og:title" content="Using Hashcat and a bit of Bash to generate password lists" />
+<meta property="og:description" content="Create a custom password list for use with tools such as smb_login and hydra" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/hashcat-gen-passwords/" />
+<meta property="og:image" content="https://example.com/logo.png"/>
+<meta property="article:published_time" content="2020-04-05T10:03:58+03:00" />
+<meta property="article:modified_time" content="2020-06-26T18:29:03+03:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://example.com/logo.png"/>
+
+<meta name="twitter:title" content="Using Hashcat and a bit of Bash to generate password lists"/>
+<meta name="twitter:description" content="Create a custom password list for use with tools such as smb_login and hydra"/>
+<meta name="application-name" content="Sammy">
+<meta name="apple-mobile-web-app-title" content="Sammy"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://example.com/hashcat-gen-passwords/" /><link rel="prev" href="https://example.com/friendzone/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Using Hashcat and a bit of Bash to generate password lists",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/example.com\/hashcat-gen-passwords\/"
+        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "security, password, cracking, bash, hashcat, OSINT","wordcount":  867 ,
+        "url": "https:\/\/example.com\/hashcat-gen-passwords\/","datePublished": "2020-04-05T10:03:58+03:00","dateModified": "2020-06-26T18:29:03+03:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "","logo": {
+                    "@type": "ImageObject",
+                    "url": "https:\/\/example.com\/images\/avatar.png",
+                    "width":  746 ,
+                    "height":  747 
+                }},"author": {
+                "@type": "Person",
+                "name": "Sammy"
+            },"description": "Create a custom password list for use with tools such as smb_login and hydra"
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Sammy"><span class="header-title-pre"><i class='fas fa-terminal fa-fw'></i></span>cd home</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/projects"> Projects </a><a class="menu-item" href="/about/"> About </a><a class="menu-item" href="https://github.com/Sam-Lane" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Sammy"><span class="header-title-pre"><i class='fas fa-terminal fa-fw'></i></span>cd home</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/projects" title="">Projects</a><a class="menu-item" href="/about/" title="">About</a><a class="menu-item" href="https://github.com/Sam-Lane" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Using Hashcat and a bit of Bash to generate password lists</h1><h2 class="single-subtitle">Moar passwords</h2><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>Sammy</a></span>&nbsp;<span class="post-category">included in <a href="/categories/hacking/"><i class="far fa-folder fa-fw"></i>hacking</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-04-05">2020-04-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;867 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#add-the-year-to-end-of-each-password">Add the year to end of each password</a></li>
+    <li><a href="#add-an--to-end-of-each-password">Add an ! to end of each password</a></li>
+    <li><a href="#lets-quickly-download-the-rules-with-wget">Lets quickly download the rules with <code>wget</code></a></li>
+    <li><a href="#fine-tuning-the-list">Fine tuning the list</a>
+      <ul>
+        <li><a href="#remove-duplicate-passwords">Remove duplicate passwords</a></li>
+        <li><a href="#keep-passwords-that-are-over-a-certain-length">Keep passwords that are over a certain length</a>
+          <ul>
+            <li><a href="#crackmapexec">crackmapexec</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><!-- <a class="lightgallery" href="/img/hashcat-logo.png" title="Hashcat Logo" data-thumbnail="/img/hashcat-logo.png">
+        <img
+            class="lazyload"
+            src="/svg/loading.min.svg"
+            data-src="/img/hashcat-logo.png"
+            data-srcset="/img/hashcat-logo.png, /img/hashcat-logo.png 1.5x, /img/hashcat-logo.png 2x"
+            data-sizes="auto"
+            alt="Hashcat Logo" />
+    </a> -->
+<p>Let&rsquo;s use hashcat to generate a custom word-list we can make use of with password spraying attacks. Users typically have passwords that have a set pattern, such as if a company has a policy of resetting passwords monthly it is not surpring to find that users have their password contain the current Month of the year. Prehaps a companies password policy is longer you could then expect users to use seasons as part of their password.</p>
+<p>Lets start with quickly adding all the months into a &ldquo;candidate&rdquo; file we can do this with a quick python one-liner.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">python -c <span class="s2">&#34;import calendar;[print(calendar.month_name[i]) for i in range(1,13)]&#34;</span> &gt; candidate.passwords
+</code></pre></td></tr></table>
+</div>
+</div><p>Lets go ahead and add some more common passwords</p>
+<p><code>vim candidate.passwords</code>
+<div class="details admonition example open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-list-ol fa-fw"></i>Our wordlist<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>January</p>
+<p>February</p>
+<p>March</p>
+<p>April</p>
+<p>May</p>
+<p>June</p>
+<p>July</p>
+<p>August</p>
+<p>September</p>
+<p>October</p>
+<p>November</p>
+<p>December</p>
+<p>Password</p>
+<p>P@ssw0rd</p>
+<p>Secret</p>
+<p>123456</p>
+<p>123456789</p>
+<p>qwerty</p>
+<p>111111</p>
+<p>12345678</p>
+<p>abc123</p>
+<p>1234567</p>
+<p>password1</p>
+<p>12345</p>
+<p>iloveyou</p>
+<p>monkey</p>
+<p>dragon</p>
+</div>
+        </div>
+    </div></p>
+<p>At this point you&rsquo;ll want to add that extra spice to this list by doing some OSINT on your target. Adding things such as the company name, or even the name of the technology/tool you are trying to break into. Additional using a tool like <a href="https://github.com/digininja/CeWL/" target="_blank" rel="noopener noreffer">CeWL</a> is great for pulling lots of data from a website and generating an even bigger wordlist.</p>
+<p>Lets add even more entropy to our new password list by adding the year to the end of each candidate password and then an ! to the end of each potential passwords.</p>
+<h2 id="add-the-year-to-end-of-each-password">Add the year to end of each password</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="k">for</span> i in <span class="k">$(</span>cat candidate.passwords<span class="k">)</span><span class="p">;</span> <span class="k">do</span> <span class="nb">echo</span> <span class="nv">$i</span><span class="p">;</span> <span class="nb">echo</span> <span class="si">${</span><span class="nv">i</span><span class="si">}</span>2020<span class="p">;</span> <span class="k">done</span> &gt;  tmp<span class="p">;</span> cp tmp candidate.passwords 
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="add-an--to-end-of-each-password">Add an ! to end of each password</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="k">for</span> i in <span class="k">$(</span>cat candidate.passwords<span class="k">)</span><span class="p">;</span> <span class="k">do</span> <span class="nb">echo</span> <span class="nv">$i</span><span class="p">;</span> <span class="nb">echo</span> <span class="si">${</span><span class="nv">i</span><span class="si">}</span><span class="se">\!</span><span class="p">;</span> <span class="k">done</span> &gt; tmp<span class="p">;</span> cp tmp candidate.passwords 
+</code></pre></td></tr></table>
+</div>
+</div><p>Finally to really add some randomness to our custom list we can use hashcat and some rule files to generate thousands of variants of our candidate passwords. To do so we use the <code>--stdout</code> flag in hashcat to print the output to, surprisingly, standout. One of the great features of hashcat is the ability to use a rule file to generate variance. This is done by giving setting the <code>-r</code> flag and a path to your rule file.</p>
+<p>You can find lots of rule files in the hashcat github <a href="https://github.com/hashcat/hashcat/tree/master/rules" target="_blank" rel="noopener noreffer">repo</a> but for this example we will just use the <a href="https://github.com/hashcat/hashcat/blob/master/rules/best64.rule" target="_blank" rel="noopener noreffer">best64.rule</a></p>
+<h2 id="lets-quickly-download-the-rules-with-wget">Lets quickly download the rules with <code>wget</code></h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">wget https://raw.githubusercontent.com/hashcat/hashcat/master/rules/best64.rule
+</code></pre></td></tr></table>
+</div>
+</div><p>Now lets apply our rules with hashcat. Notice <code>--force</code> flag to ensure hashcat runs even with a CPU.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">hashcat --force --stdout candidate.passwords -r best64.rule &gt; password.list
+</code></pre></td></tr></table>
+</div>
+</div><p>We should now have thousands of words in this password list now. We can can go futher and even change additional rule files to get even more variants on what started out as simply the months of the year and some common passwords.</p>
+<p>We now have thousands of passwords which is too many for a password spraying attack. We can use bash to cut down on some of the fat.</p>
+<h2 id="fine-tuning-the-list">Fine tuning the list</h2>
+<h3 id="remove-duplicate-passwords">Remove duplicate passwords</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">cat password.list <span class="p">|</span> sort -u &gt; tmp<span class="p">;</span> cp tmp password.list
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="keep-passwords-that-are-over-a-certain-length">Keep passwords that are over a certain length</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">cat password.list <span class="p">|</span> awk <span class="s1">&#39;length($0) &gt; 7&#39;</span> &gt; tmp<span class="p">;</span> cp tmp password.list
+</code></pre></td></tr></table>
+</div>
+</div><p>Now we have prepared our password list before using it we should check the password policy. Just incase we block a user out of their account due to too many failed authentication attempts. If we were attack a windows machine we can use <a href="https://github.com/byt3bl33d3r/CrackMapExec" target="_blank" rel="noopener noreffer">crackmapexec</a> to check the password policy for a SMB share.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">crackmapexec smb 192.168.1.25 --pass-pol
+</code></pre></td></tr></table>
+</div>
+</div><p>If that does not work you can try a null authentication, this tends to work on windows servers that have been upgraded from 2003. This is due for new domain installations not allowing by default null authentication.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">crackmapexec smb 192.168.1.25 --pass-pol -u <span class="s1">&#39;&#39;</span> -p <span class="s1">&#39;&#39;</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">CMB 192.168.1.25:445 DOMAIN    <span class="o">[</span>*<span class="o">]</span> Windows 10.0 Build <span class="m">14393</span> <span class="o">(</span>name:DOMAIN<span class="o">)</span> <span class="o">(</span>domain:FOO<span class="o">)</span>
+CMB 192.168.1.25:445 DOMAIN    <span class="o">[</span>+<span class="o">]</span> Dumping password policy
+CMB 192.168.1.25:445 DOMAIN    Minimum password length: <span class="m">7</span>
+CMB 192.168.1.25:445 DOMAIN    Password <span class="nb">history</span> length: <span class="m">24</span>
+CMB 192.168.1.25:445 DOMAIN    Maximum password age: <span class="m">42</span> days <span class="m">23</span> hours <span class="m">52</span> minutes
+CMB 192.168.1.25:445 DOMAIN    Minimum password age: <span class="m">23</span> hours <span class="m">52</span> minutes
+CMB 192.168.1.25:445 DOMAIN    Account lockout threshold: <span class="m">0</span>
+CMB 192.168.1.25:445 DOMAIN    Account lockout duration: None
+</code></pre></td></tr></table>
+</div>
+</div><p>Things to look out for in the output would be the minimum password length, we could use this to tune our password list and the information on account lockouts. Which in the above example is set to 0 hence we are safe to spray our passwords without the fear of locking out users.</p>
+<p>You are now ready to begin your attack. In the case of windows SMB you could use either:</p>
+<h4 id="crackmapexec">crackmapexec</h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">crackmapexec smb 192.168.1.25 -u user.list -p password.list
+</code></pre></td></tr></table>
+</div>
+</div><p>or metasploit console has a nice module called <code>smb_login</code>.</p>
+<p>There is many ways you could expand this further to create more precise wordlists against your target. Doing good recon on a target can yeild some great potential passwords, such as including user names, birthdays. Obviously there is infinite possibilites but these techniques can be used to quickly generate at least some of those infinite possibilites.</p>
+<h2 id="references">References</h2>
+<ol>
+<li><a href="https://www.youtube.com/watch?v=H9FcE_FMZio" target="_blank" rel="noopener noreffer">ippsec - forest</a></li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2020-06-26&nbsp;<a class="git-hash" href="https://github.com/Sam-Lane/commit/cbc947d2da406f641dc4e91aae55523c7ee26d35" target="_blank" title="commit by Sam Lane(samuel.lane@hotmail.com) cbc947d2da406f641dc4e91aae55523c7ee26d35: theme change">
+                                    <i class="fas fa-hashtag fa-fw"></i>cbc947d</a></span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/hashcat-gen-passwords/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/security/">security</a>,&nbsp;<a href="/tags/password/">password</a>,&nbsp;<a href="/tags/cracking/">cracking</a>,&nbsp;<a href="/tags/bash/">bash</a>,&nbsp;<a href="/tags/hashcat/">hashcat</a>,&nbsp;<a href="/tags/osint/">OSINT</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/friendzone/" class="prev" rel="prev" title="Friendzone"><i class="fas fa-angle-left fa-fw"></i>Friendzone</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line"></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.css"><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/copy-tex.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

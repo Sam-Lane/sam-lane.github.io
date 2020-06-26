@@ -1,25 +1,32 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Posts on Sam</title>
-    <link>/posts/</link>
-    <description>Recent content in Posts on Sam</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <copyright> </copyright>
-    <lastBuildDate>Sun, 05 Apr 2020 10:03:58 +0300</lastBuildDate>
-    
-	<atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Using Hashcat and a bit of Bash to generate password lists</title>
-      <link>/posts/hashcat-gen-passwords/</link>
-      <pubDate>Sun, 05 Apr 2020 10:03:58 +0300</pubDate>
-      
-      <guid>/posts/hashcat-gen-passwords/</guid>
-      <description>Let&amp;rsquo;s use hashcat to generate a custom word-list we can make use of with password spraying attacks. Users typically have passwords that have a set pattern, such as if a company has a policy of resetting passwords monthly it is not surpring to find that users have their password contain the current Month of the year. Prehaps a companies password policy is longer you could then expect users to use seasons as part of their password.</description>
-    </item>
-    
-  </channel>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>All Posts - Sammy</title>
+        <link>https://example.com/posts/</link>
+        <description>All Posts | Sammy</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 05 Apr 2020 10:03:58 &#43;0300</lastBuildDate><atom:link href="https://example.com/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Using Hashcat and a bit of Bash to generate password lists</title>
+    <link>https://example.com/hashcat-gen-passwords/</link>
+    <pubDate>Sun, 05 Apr 2020 10:03:58 &#43;0300</pubDate>
+    <author>Author</author>
+    <guid>https://example.com/hashcat-gen-passwords/</guid>
+    <description><![CDATA[-- Let&rsquo;s use hashcat to generate a custom word-list we can make use of with password spraying attacks. Users typically have passwords that have a set pattern, such as if a company has a policy of resetting passwords monthly it is not surpring to find that users have their password contain the current Month of the year. Prehaps a companies password policy is longer you could then expect users to use seasons as part of their password.]]></description>
+</item><item>
+    <title>Friendzone</title>
+    <link>https://example.com/friendzone/</link>
+    <pubDate>Thu, 11 Jul 2019 11:20:31 &#43;0100</pubDate>
+    <author>Author</author>
+    <guid>https://example.com/friendzone/</guid>
+    <description><![CDATA[HTB Writeup: friendzone Introduction Friendzone was my third box to own on HackTheBox. I learnt alot from this box. Such as exploiting Local File Inclusion (LFI) to have PHP execute my reverse shell, to understanding more about DNS and the ways python imports libraries.
+Enumeration nmap Running nmap on a server will give a lot of information on what ports are open on the machine and what services those ports belong to.]]></description>
+</item><item>
+    <title>&#34;H3110_W0r1d&#34;</title>
+    <link>https://example.com/hello-world/</link>
+    <pubDate>Wed, 10 Jul 2019 11:38:05 &#43;0100</pubDate>
+    <author>Author</author>
+    <guid>https://example.com/hello-world/</guid>
+    <description><![CDATA[So I have started a blog. Here you should find write ups on CTFs and machines on HackTheBox and my experiences in the industry as try to improve my skills in cyber security.
+I want to start documenting and recording things I learn to help others but also to serve as notes for myself.
+I&rsquo;m just starting out and very much a noob so do not expect too much.
+&ndash; Sam]]></description>
+</item></channel>
 </rss>
