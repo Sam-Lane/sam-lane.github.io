@@ -1,8 +1,6 @@
 # Using Hashcat and a bit of Bash to generate password lists
 
 
-<!-- {{< image src="/img/hashcat-logo.png" alt="Hashcat Logo" position="center" style="border-radius: 8px;" >}} -->
-
 Let's use hashcat to generate a custom word-list we can make use of with password spraying attacks. Users typically have passwords that have a set pattern, such as if a company has a policy of resetting passwords monthly it is not surpring to find that users have their password contain the current Month of the year. Prehaps a companies password policy is longer you could then expect users to use seasons as part of their password.
 
 Lets start with quickly adding all the months into a "candidate" file we can do this with a quick python one-liner. 

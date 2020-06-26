@@ -29,7 +29,7 @@
         "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": "https:\/\/example.com\/hashcat-gen-passwords\/"
-        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "security, password, cracking, bash, hashcat, OSINT","wordcount":  867 ,
+        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "security, password, cracking, bash, hashcat, OSINT","wordcount":  866 ,
         "url": "https:\/\/example.com\/hashcat-gen-passwords\/","datePublished": "2020-04-05T10:03:58+03:00","dateModified": "2020-06-26T18:29:03+03:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
             "@type": "Organization",
             "name": "","logo": {
@@ -84,7 +84,7 @@
             <div class="toc-content" id="toc-content-auto"></div>
         </div><article class="page single"><h1 class="single-title animated flipInX">Using Hashcat and a bit of Bash to generate password lists</h1><h2 class="single-subtitle">Moar passwords</h2><div class="post-meta">
             <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>Sammy</a></span>&nbsp;<span class="post-category">included in <a href="/categories/hacking/"><i class="far fa-folder fa-fw"></i>hacking</a></span></div>
-            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-04-05">2020-04-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;867 words&nbsp;
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-04-05">2020-04-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;866 words&nbsp;
                 <i class="far fa-clock fa-fw"></i>&nbsp;5 minutes&nbsp;</div>
         </div><div class="details toc" id="toc-static"  kept="">
                 <div class="details-summary toc-title">
@@ -109,16 +109,7 @@
     <li><a href="#references">References</a></li>
   </ul>
 </nav></div>
-            </div><div class="content" id="content"><!-- <a class="lightgallery" href="/img/hashcat-logo.png" title="Hashcat Logo" data-thumbnail="/img/hashcat-logo.png">
-        <img
-            class="lazyload"
-            src="/svg/loading.min.svg"
-            data-src="/img/hashcat-logo.png"
-            data-srcset="/img/hashcat-logo.png, /img/hashcat-logo.png 1.5x, /img/hashcat-logo.png 2x"
-            data-sizes="auto"
-            alt="Hashcat Logo" />
-    </a> -->
-<p>Let&rsquo;s use hashcat to generate a custom word-list we can make use of with password spraying attacks. Users typically have passwords that have a set pattern, such as if a company has a policy of resetting passwords monthly it is not surpring to find that users have their password contain the current Month of the year. Prehaps a companies password policy is longer you could then expect users to use seasons as part of their password.</p>
+            </div><div class="content" id="content"><p>Let&rsquo;s use hashcat to generate a custom word-list we can make use of with password spraying attacks. Users typically have passwords that have a set pattern, such as if a company has a policy of resetting passwords monthly it is not surpring to find that users have their password contain the current Month of the year. Prehaps a companies password policy is longer you could then expect users to use seasons as part of their password.</p>
 <p>Lets start with quickly adding all the months into a &ldquo;candidate&rdquo; file we can do this with a quick python one-liner.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
