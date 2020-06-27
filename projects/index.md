@@ -1,6 +1,39 @@
 # Projects
 
 
+{{< figure src="/img/projectscover.jpg">}}
+
+# SUBway
+[{{< fa github 3x>}}](https://github.com/sam-lane/subway)
+{{< admonition type=info open=true >}}
+CLI tool for subdomain discovery
+{{< /admonition >}}
+Enumerate subdomains by either using DNS lookup or by virtual hosting HTTP requests. Useful for things like Hack The Box or Try Hack Me when no DNS server is available.
+
+vhost lookups as simple as supply a list of domains and the IP.
+
+```bash
+subway -h example.com -w subdomains.txt -v -ip 127.0.0.1
+====================================
+   ______  _____                  
+  / __/ / / / _ )_    _____ ___ __
+ _\ \/ /_/ / _  | |/|/ / _ '/ // /
+/___/\____/____/|__,__/\_,_/\_, / 
+                           /___/  
+====================================
+
+host: example.com
+wordlist: subdomains.txt
+====================================
+www.example.com
+wild.example.com
+mail.example.com
+server.example.com
+dev1.example.com
+100:100
+done
+```
+Includes features to filter out reponses of certain length or filter out reponse codes.
 
 # Gissue
 [{{< fa github 3x>}}](https://github.com/sam-lane/gissue) [{{< fa python 3x>}}](https://pypi.org/project/gissue/)
