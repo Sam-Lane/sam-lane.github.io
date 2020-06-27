@@ -57,7 +57,7 @@ You should recieve an output similar to smbmap. Again smbclient has many more fe
 There's a wealth of vulnrabilites with SMB and a lot of imformation out there on what version has which exploit. To quickly discover potentially exploits I like two methods.
 
 #### Searchsploit
-Searchsploit is a handy little cli tool. Parsing searchsploit a software and a version will return a list of known exploits.
+Searchsploit is a handy little cli tool. Passing searchsploit a software and a version will return a list of known exploits.
 
 ```bash
 searchsploit smb 2.1
