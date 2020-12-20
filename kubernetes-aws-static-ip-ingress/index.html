@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Kubernetes Static IP for Ingress Controller - Sammy</title><meta name="Description" content="Attaching AWS EIPs to a Network Loadbalancer for nginx ingress controller in kubernetes."><meta property="og:title" content="Kubernetes Static IP for Ingress Controller" />
+<meta property="og:description" content="Attaching AWS EIPs to a Network Loadbalancer for nginx ingress controller in kubernetes." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://example.com/kubernetes-aws-static-ip-ingress/" />
+<meta property="og:image" content="https://example.com/logo.png"/>
+<meta property="article:published_time" content="2020-12-20T12:30:00+01:00" />
+<meta property="article:modified_time" content="2020-12-20T12:32:46+00:00" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://example.com/logo.png"/>
+
+<meta name="twitter:title" content="Kubernetes Static IP for Ingress Controller"/>
+<meta name="twitter:description" content="Attaching AWS EIPs to a Network Loadbalancer for nginx ingress controller in kubernetes."/>
+<meta name="application-name" content="Sammy">
+<meta name="apple-mobile-web-app-title" content="Sammy"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://example.com/kubernetes-aws-static-ip-ingress/" /><link rel="prev" href="https://example.com/smb-enumeration-interaction/" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.7.2/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Kubernetes Static IP for Ingress Controller",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/example.com\/kubernetes-aws-static-ip-ingress\/"
+        },"image": ["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre": "posts","keywords": "Security, Kubernetes, AWS, Cloud, Terraform","wordcount":  379 ,
+        "url": "https:\/\/example.com\/kubernetes-aws-static-ip-ingress\/","datePublished": "2020-12-20T12:30:00+01:00","dateModified": "2020-12-20T12:32:46+00:00","license": "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher": {
+            "@type": "Organization",
+            "name": "","logo": {
+                    "@type": "ImageObject",
+                    "url": "https:\/\/example.com\/images\/avatar.png",
+                    "width":  746 ,
+                    "height":  747 
+                }},"author": {
+                "@type": "Person",
+                "name": "Sammy"
+            },"description": "Attaching AWS EIPs to a Network Loadbalancer for nginx ingress controller in kubernetes."
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Sammy"><span class="header-title-pre"><i class='fas fa-terminal fa-fw'></i></span>cd home</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/projects"> Projects </a><a class="menu-item" href="/about/"> About </a><a class="menu-item" href="https://github.com/Sam-Lane" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i>  </a><span class="menu-item delimiter"></span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Sammy"><span class="header-title-pre"><i class='fas fa-terminal fa-fw'></i></span>cd home</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/projects" title="">Projects</a><a class="menu-item" href="/about/" title="">About</a><a class="menu-item" href="https://github.com/Sam-Lane" title="GitHub" rel="noopener noreffer" target="_blank"><i class='fab fa-github fa-fw'></i></a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Contents</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Kubernetes Static IP for Ingress Controller</h1><h2 class="single-subtitle">yaml all the things</h2><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>Sammy</a></span>&nbsp;<span class="post-category">included in <a href="/categories/kubernetes/"><i class="far fa-folder fa-fw"></i>kubernetes</a>&nbsp;<a href="/categories/devops/"><i class="far fa-folder fa-fw"></i>devops</a>&nbsp;<a href="/categories/cloud/"><i class="far fa-folder fa-fw"></i>cloud</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-12-20">2020-12-20</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;379 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;2 minutes&nbsp;</div>
+        </div><div class="featured-image"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://source.unsplash.com/UrtxBX5i5SE/1600x900"
+        data-srcset="https://source.unsplash.com/UrtxBX5i5SE/1600x900, https://source.unsplash.com/UrtxBX5i5SE/1600x900 1.5x, https://source.unsplash.com/UrtxBX5i5SE/1600x900 2x"
+        data-sizes="auto"
+        alt="https://source.unsplash.com/UrtxBX5i5SE/1600x900"
+        title="Attaching AWS EIPs to a Network Loadbalancer for nginx ingress controller in kubernetes." /></div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Contents</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction-and-motivation">Introduction and motivation</a></li>
+    <li><a href="#a-solution">A solution</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="introduction-and-motivation">Introduction and motivation</h2>
+<p>Recently at work I had a requirement to provide clients static IPs for our kubernetes cluster. AWS managed load balancers are fantastic but due to their elastic scale-ability you can not guerentee what IP addresses your load balancer is using. Fortuantly AWS provides the Layer 3 Network LoadBalancer (NLB). The NLB allows for Elastic IPs to attached to it, providing static IPs.</p>
+<p>Because we are using an ingress-controller, nginx in this case, a Layer 3 loadbalancer is completely adequate, as the ingress-controller will handle routing to k8s services on the application layer.</p>
+<h2 id="a-solution">A solution</h2>
+<p>Thanks to the great work of the kubernetes community this PR provides exactly the functionality required. <a href="https://github.com/kubernetes/kubernetes/pull/69263">https://github.com/kubernetes/kubernetes/pull/69263</a>.</p>
+<p>When I provision my nginx ingress controller service I supple two additional notations.</p>
+<ol>
+<li><code>service.beta.kubernetes.io/aws-load-balancer-eip-allocations</code> which takes a comma seperated list of EIPs IDs.</li>
+<li><code>service.beta.kubernetes.io/aws-load-balancer-subnets</code> another comma seperated list of subnet IDs.</li>
+</ol>
+<p>Kubernetes will do the rest to create a NLB spread over three subnets which should be over three AZs each with its own EIP.</p>
+<p>Now in terraform I can provision my 3 elastic IPs one for each Availability-Zone/Subnet</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-tf" data-lang="tf"><span class="kr">resource</span> <span class="s">&#34;aws_eip&#34; &#34;kube_nlb_ip&#34;</span> {
+<span class="na">  count</span> <span class="o">=</span> <span class="m">3</span>
+<span class="na">  vpc</span>   <span class="o">=</span> <span class="kt">true</span>
+  
+  <span class="na">tags</span> <span class="o">=</span> {
+<span class="na">      Name</span>        <span class="o">=</span> <span class="s2">&#34;kube-cluster-nlb-${count.index + 1}&#34;</span>
+<span class="na">      Description</span> <span class="o">=</span> <span class="s2">&#34;Elastic IPs for kube-cluster to provide static IPs for allowlist rules&#34;</span>
+  }
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>Now let&rsquo;s apply that into my environment</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">terraform apply
+</code></pre></td></tr></table>
+</div>
+</div><p>I can use terraform outputs to grab my EIPs ids and my subnet IDs I&rsquo;ve provisioned earlier. Or quickly look them up in the AWS console under the VPC section.</p>
+<p>Finally in the ingress controller YAML I need to add the additional annotations. These are on lines 9 and 10.</p>
+<div class="details admonition note open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-pencil-alt fa-fw"></i>I&#39;ve removed yaml for brevity <i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">Click below to view</div>
+        </div>
+    </div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yml" data-lang="yml"><span class="k">apiVersion</span><span class="p">:</span><span class="w"> </span>v1<span class="w">
+</span><span class="w"></span><span class="k">kind</span><span class="p">:</span><span class="w"> </span>Service<span class="w">
+</span><span class="w"></span><span class="k">metadata</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">annotations</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="k">service.beta.kubernetes.io/aws-load-balancer-backend-protocol</span><span class="p">:</span><span class="w"> </span>tcp<span class="w">
+</span><span class="w">    </span><span class="k">service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;true&#39;</span><span class="w">
+</span><span class="w">    </span><span class="k">service.beta.kubernetes.io/aws-load-balancer-type</span><span class="p">:</span><span class="w"> </span>nlb<span class="w">
+</span><span class="w">    </span><span class="c"># provide my eip allocations</span><span class="w">
+</span><span class="w">    </span><span class="k">service.beta.kubernetes.io/aws-load-balancer-eip-allocations</span><span class="p">:</span><span class="w"> </span>eip-id123abc<span class="p">,</span><span class="w"> </span>eip-id456def<span class="p">,</span><span class="w"> </span>eip-id789ghi<span class="w">
+</span><span class="w">    </span><span class="k">service.beta.kubernetes.io/aws-load-balancer-subnets</span><span class="p">:</span><span class="w"> </span>subnet-id123abc<span class="p">,</span><span class="w"> </span>subnet-id456def<span class="p">,</span><span class="w"> </span>subnet-id789<span class="w">
+</span><span class="w">  </span><span class="k">name</span><span class="p">:</span><span class="w"> </span>ingress-nginx-controller<span class="w">
+</span><span class="w">  </span><span class="k">namespace</span><span class="p">:</span><span class="w"> </span>ingress-nginx<span class="w">
+</span><span class="w"></span><span class="k">spec</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="k">type</span><span class="p">:</span><span class="w"> </span>LoadBalancer<span class="w">
+</span><span class="w">  </span>...<span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>I can <code>kube apply -f</code> this with the rest of the manifest for nginx ingress-controller. You can view the documentation here for more information on that: <a href="https://kubernetes.github.io/ingress-nginx/deploy/#network-load-balancer-nlb">https://kubernetes.github.io/ingress-nginx/deploy/#network-load-balancer-nlb</a></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>At this point you should have deployed a ingress controller with a service of <code>type=LoadBalancer</code> that has a AWS NLB with three EIPs attached. This allows you to supply IPs for clients to allowlist on their firewalls.</p>
+</div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2020-12-20&nbsp;<a class="git-hash" href="https://github.com/Sam-Lane/commit/fd59f8ab6ac2884536010d8d73a25d7c676f5258" target="_blank" title="commit by Sam Lane(samuel.lane@hotmail.com) fd59f8ab6ac2884536010d8d73a25d7c676f5258: kubernetes-static-ip added">
+                                    <i class="fas fa-hashtag fa-fw"></i>fd59f8a</a></span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/security/">security</a>,&nbsp;<a href="/tags/kubernetes/">Kubernetes</a>,&nbsp;<a href="/tags/aws/">AWS</a>,&nbsp;<a href="/tags/cloud/">Cloud</a>,&nbsp;<a href="/tags/terraform/">Terraform</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/smb-enumeration-interaction/" class="prev" rel="prev" title="SMB Enumeration &amp; Interaction"><i class="fas fa-angle-left fa-fw"></i>SMB Enumeration &amp; Interaction</a></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line"></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/smooth-scroll@16.1.3/dist/smooth-scroll.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lazysizes@5.2.2/lazysizes.min.js"></script><script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
