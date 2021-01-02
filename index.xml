@@ -1,26 +1,26 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>Sammy</title>
-        <link>https://example.com/</link>
+        <link>https://samlane.io/</link>
         <description>About Sammy</description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
-            <atom:link href="https://example.com/index.xml" rel="self" type="application/rss+xml" />
+            <atom:link href="https://samlane.io/index.xml" rel="self" type="application/rss+xml" />
         <item>
     <title>Kubernetes Static IP for Ingress Controller</title>
-    <link>https://example.com/kubernetes-aws-static-ip-ingress/</link>
+    <link>https://samlane.io/kubernetes-aws-static-ip-ingress/</link>
     <pubDate>Sun, 20 Dec 2020 12:30:00 &#43;0100</pubDate>
     <author>Author</author>
-    <guid>https://example.com/kubernetes-aws-static-ip-ingress/</guid>
+    <guid>https://samlane.io/kubernetes-aws-static-ip-ingress/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://source.unsplash.com/UrtxBX5i5SE/1600x900" referrerpolicy="no-referrer">
             </div>Introduction and motivation Recently at work I had a requirement to provide clients static IPs for our kubernetes cluster. AWS managed load balancers are fantastic but due to their elastic scale-ability you can not guerentee what IP addresses your load balancer is using. Fortuantly AWS provides the Layer 3 Network LoadBalancer (NLB). The NLB allows for Elastic IPs to attached to it, providing static IPs.
 Because we are using an ingress-controller, nginx in this case, a Layer 3 loadbalancer is completely adequate, as the ingress-controller will handle routing to k8s services on the application layer.]]></description>
 </item><item>
     <title>SMB Enumeration &amp; Interaction</title>
-    <link>https://example.com/smb-enumeration-interaction/</link>
+    <link>https://samlane.io/smb-enumeration-interaction/</link>
     <pubDate>Fri, 26 Jun 2020 10:03:58 &#43;0300</pubDate>
     <author>Author</author>
-    <guid>https://example.com/smb-enumeration-interaction/</guid>
+    <guid>https://samlane.io/smb-enumeration-interaction/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://source.unsplash.com/40XgDxBfYXM/1600x900" referrerpolicy="no-referrer">
             </div>What is SMB? Info  Server Message Block (SMB)   SMB has a pretty bad rep in regards to security espically with the recent, 2017, infamous exploit EternalBlue CVE-2017-0144.
@@ -28,27 +28,27 @@ But how can you find it, exploit it, and even use it to help with a red team eng
 Enumerating Before you can do anything you need to discover shares on the network. From here you can try to see if any shares allow anonymous access or what restricted share exists.]]></description>
 </item><item>
     <title>Using Hashcat and a bit of Bash to generate password lists</title>
-    <link>https://example.com/hashcat-gen-passwords/</link>
+    <link>https://samlane.io/hashcat-gen-passwords/</link>
     <pubDate>Sun, 05 Apr 2020 10:03:58 &#43;0300</pubDate>
     <author>Author</author>
-    <guid>https://example.com/hashcat-gen-passwords/</guid>
+    <guid>https://samlane.io/hashcat-gen-passwords/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://source.unsplash.com/d6gyCYQU1vc/1600x900" referrerpolicy="no-referrer">
             </div>Let&rsquo;s use hashcat to generate a custom word-list we can make use of with password spraying attacks. Users typically have passwords that have a set pattern, such as if a company has a policy of resetting passwords monthly it is not surpring to find that users have their password contain the current Month of the year. Prehaps a companies password policy is longer you could then expect users to use seasons as part of their password.]]></description>
 </item><item>
     <title>Friendzone</title>
-    <link>https://example.com/friendzone/</link>
+    <link>https://samlane.io/friendzone/</link>
     <pubDate>Thu, 11 Jul 2019 11:20:31 &#43;0100</pubDate>
     <author>Author</author>
-    <guid>https://example.com/friendzone/</guid>
+    <guid>https://samlane.io/friendzone/</guid>
     <description><![CDATA[HTB Writeup: friendzone Introduction Friendzone was my third box to own on HackTheBox. I learnt alot from this box. Such as exploiting Local File Inclusion (LFI) to have PHP execute my reverse shell, to understanding more about DNS and the ways python imports libraries.
 Enumeration nmap Running nmap on a server will give a lot of information on what ports are open on the machine and what services those ports belong to.]]></description>
 </item><item>
     <title>&#34;H3110_W0r1d&#34;</title>
-    <link>https://example.com/hello-world/</link>
+    <link>https://samlane.io/hello-world/</link>
     <pubDate>Wed, 10 Jul 2019 11:38:05 &#43;0100</pubDate>
     <author>Author</author>
-    <guid>https://example.com/hello-world/</guid>
+    <guid>https://samlane.io/hello-world/</guid>
     <description><![CDATA[So I have started a blog. Here you should find write ups on CTFs and machines on HackTheBox and my experiences in the industry as try to improve my skills in cyber security.
 I want to start documenting and recording things I learn to help others but also to serve as notes for myself.
 I&rsquo;m just starting out and very much a noob so do not expect too much.

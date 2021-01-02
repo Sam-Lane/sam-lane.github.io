@@ -1,14 +1,14 @@
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
         <title>password - Tag - Sammy</title>
-        <link>https://example.com/tags/password/</link>
+        <link>https://samlane.io/tags/password/</link>
         <description>password - Tag - Sammy</description>
-        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 05 Apr 2020 10:03:58 &#43;0300</lastBuildDate><atom:link href="https://example.com/tags/password/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 05 Apr 2020 10:03:58 &#43;0300</lastBuildDate><atom:link href="https://samlane.io/tags/password/" rel="self" type="application/rss+xml" /><item>
     <title>Using Hashcat and a bit of Bash to generate password lists</title>
-    <link>https://example.com/hashcat-gen-passwords/</link>
+    <link>https://samlane.io/hashcat-gen-passwords/</link>
     <pubDate>Sun, 05 Apr 2020 10:03:58 &#43;0300</pubDate>
     <author>Author</author>
-    <guid>https://example.com/hashcat-gen-passwords/</guid>
+    <guid>https://samlane.io/hashcat-gen-passwords/</guid>
     <description><![CDATA[<div class="featured-image">
                 <img src="https://source.unsplash.com/d6gyCYQU1vc/1600x900" referrerpolicy="no-referrer">
             </div>Let&rsquo;s use hashcat to generate a custom word-list we can make use of with password spraying attacks. Users typically have passwords that have a set pattern, such as if a company has a policy of resetting passwords monthly it is not surpring to find that users have their password contain the current Month of the year. Prehaps a companies password policy is longer you could then expect users to use seasons as part of their password.]]></description>
