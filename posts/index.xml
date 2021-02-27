@@ -3,7 +3,16 @@
         <title>All Posts - Sammy</title>
         <link>https://samlane.io/posts/</link>
         <description>All Posts | Sammy</description>
-        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 20 Dec 2020 12:30:00 &#43;0100</lastBuildDate><atom:link href="https://samlane.io/posts/" rel="self" type="application/rss+xml" /><item>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 27 Feb 2021 13:15:40 &#43;0000</lastBuildDate><atom:link href="https://samlane.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Developing Inside Minikube</title>
+    <link>https://samlane.io/developing-inside-minikube/</link>
+    <pubDate>Sat, 27 Feb 2021 13:15:40 &#43;0000</pubDate>
+    <author>Author</author>
+    <guid>https://samlane.io/developing-inside-minikube/</guid>
+    <description><![CDATA[<div class="featured-image">
+                <img src="https://source.unsplash.com/8Gg2Ne_uTcM/1600x900" referrerpolicy="no-referrer">
+            </div>Problem Recently I have the need to write code that interacts with kubernetes outside and inside the cluster. Outside is easy I can just execute my application on the host and it sends the requests off to the API. Developing insight would be a pain if everytime I made a change to a line of code I would have to rebuild the container image and redeploy the pod using that new image.]]></description>
+</item><item>
     <title>Kubernetes Static IP for Ingress Controller</title>
     <link>https://samlane.io/kubernetes-aws-static-ip-ingress/</link>
     <pubDate>Sun, 20 Dec 2020 12:30:00 &#43;0100</pubDate>

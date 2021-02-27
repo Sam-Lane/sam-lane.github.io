@@ -11,7 +11,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://samlane.io/" />
 <meta property="og:image" content="https://samlane.io/logo.png"/>
-<meta property="og:updated_time" content="2020-12-20T12:30:00+01:00" />
+<meta property="og:updated_time" content="2021-02-27T13:15:40+00:00" />
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://samlane.io/logo.png"/>
 
@@ -76,6 +76,20 @@
         alt="/images/avatar.png"
         title="/images/avatar.png" /></a></div><h2 class="home-subtitle"><div id="id-1" class="typeit"></div></h2><div class="links"><a href="https://github.com/Sam-Lane" title="GitHub" target="_blank" rel="noopener noreffer me"><i class="fab fa-github-alt fa-fw"></i></a><a href="https://linkedin.com/in/samuel-lane-39b836151/" title="LinkedIn" target="_blank" rel="noopener noreffer me"><i class="fab fa-linkedin fa-fw"></i></a><a href="https://twitter.com/HackNSnacks" title="Twitter" target="_blank" rel="noopener noreffer me"><i class="fab fa-twitter fa-fw"></i></a><a href="https://keybase.io/samlane" title="Keybase" target="_blank" rel="noopener noreffer me"><i class="fab fa-keybase fa-fw"></i></a><a href="mailto:me@samlane.io" title="Email" rel=" me"><i class="far fa-envelope fa-fw"></i></a></div></div>
 <article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
+            <a href="/developing-inside-minikube/"><img
+        class="lazyload"
+        src="/svg/loading.min.svg"
+        data-src="https://source.unsplash.com/8Gg2Ne_uTcM/640x472"
+        data-srcset="https://source.unsplash.com/8Gg2Ne_uTcM/640x472, https://source.unsplash.com/8Gg2Ne_uTcM/640x472 1.5x, https://source.unsplash.com/8Gg2Ne_uTcM/640x472 2x"
+        data-sizes="auto"
+        alt="https://source.unsplash.com/8Gg2Ne_uTcM/640x472"
+        title="Developing applications that interact with kubernetes inside minikube" /></a>
+        </div><h1 class="single-title" itemprop="name headline">
+        <a href="/developing-inside-minikube/">Developing Inside Minikube</a>
+    </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>Sammy</a></span>&nbsp;<span class="post-publish">published on <time datetime="2021-02-27">2021-02-27</time></span>&nbsp;<span class="post-category">included in <a href="/categories/kubernetes/"><i class="far fa-folder fa-fw"></i>kubernetes</a>&nbsp;<a href="/categories/cloud/"><i class="far fa-folder fa-fw"></i>cloud</a>&nbsp;<a href="/categories/development/"><i class="far fa-folder fa-fw"></i>development</a></span></div><div class="content">Problem Recently I have the need to write code that interacts with kubernetes outside and inside the cluster. Outside is easy I can just execute my application on the host and it sends the requests off to the API. Developing insight would be a pain if everytime I made a change to a line of code I would have to rebuild the container image and redeploy the pod using that new image.</div><div class="post-footer">
+        <a href="/developing-inside-minikube/">Read More</a><div class="post-tags">
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/security/">Security</a>,&nbsp;<a href="/tags/kubernetes/">Kubernetes</a>,&nbsp;<a href="/tags/golang/">Golang</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
             <a href="/kubernetes-aws-static-ip-ingress/"><img
         class="lazyload"
         src="/svg/loading.min.svg"
@@ -89,7 +103,7 @@
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>Sammy</a></span>&nbsp;<span class="post-publish">published on <time datetime="2020-12-20">2020-12-20</time></span>&nbsp;<span class="post-category">included in <a href="/categories/kubernetes/"><i class="far fa-folder fa-fw"></i>kubernetes</a>&nbsp;<a href="/categories/devops/"><i class="far fa-folder fa-fw"></i>devops</a>&nbsp;<a href="/categories/cloud/"><i class="far fa-folder fa-fw"></i>cloud</a></span></div><div class="content">Introduction and motivation Recently at work I had a requirement to provide clients static IPs for our kubernetes cluster. AWS managed load balancers are fantastic but due to their elastic scale-ability you can not guerentee what IP addresses your load balancer is using. Fortuantly AWS provides the Layer 3 Network LoadBalancer (NLB). The NLB allows for Elastic IPs to attached to it, providing static IPs.
 Because we are using an ingress-controller, nginx in this case, a Layer 3 loadbalancer is completely adequate, as the ingress-controller will handle routing to k8s services on the application layer.</div><div class="post-footer">
         <a href="/kubernetes-aws-static-ip-ingress/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/security/">security</a>,&nbsp;<a href="/tags/kubernetes/">Kubernetes</a>,&nbsp;<a href="/tags/aws/">AWS</a>,&nbsp;<a href="/tags/cloud/">Cloud</a>,&nbsp;<a href="/tags/terraform/">Terraform</a></div></div>
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/security/">Security</a>,&nbsp;<a href="/tags/kubernetes/">Kubernetes</a>,&nbsp;<a href="/tags/aws/">AWS</a>,&nbsp;<a href="/tags/cloud/">Cloud</a>,&nbsp;<a href="/tags/terraform/">Terraform</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><div class="featured-image-preview">
             <a href="/smb-enumeration-interaction/"><img
         class="lazyload"
@@ -119,7 +133,7 @@ Enumerating Before you can do anything you need to discover shares on the networ
         <a href="/hashcat-gen-passwords/">Using Hashcat and a bit of Bash to generate password lists</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>Sammy</a></span>&nbsp;<span class="post-publish">published on <time datetime="2020-04-05">2020-04-05</time></span>&nbsp;<span class="post-category">included in <a href="/categories/hacking/"><i class="far fa-folder fa-fw"></i>hacking</a></span></div><div class="content">Let&rsquo;s use hashcat to generate a custom word-list we can make use of with password spraying attacks. Users typically have passwords that have a set pattern, such as if a company has a policy of resetting passwords monthly it is not surpring to find that users have their password contain the current Month of the year. Prehaps a companies password policy is longer you could then expect users to use seasons as part of their password.</div><div class="post-footer">
         <a href="/hashcat-gen-passwords/">Read More</a><div class="post-tags">
-                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/security/">security</a>,&nbsp;<a href="/tags/password/">password</a>,&nbsp;<a href="/tags/cracking/">cracking</a>,&nbsp;<a href="/tags/bash/">bash</a>,&nbsp;<a href="/tags/hashcat/">hashcat</a>,&nbsp;<a href="/tags/osint/">OSINT</a></div></div>
+                <i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/security/">Security</a>,&nbsp;<a href="/tags/password/">password</a>,&nbsp;<a href="/tags/cracking/">cracking</a>,&nbsp;<a href="/tags/bash/">bash</a>,&nbsp;<a href="/tags/hashcat/">hashcat</a>,&nbsp;<a href="/tags/osint/">OSINT</a></div></div>
 </article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h1 class="single-title" itemprop="name headline">
         <a href="/friendzone/">Friendzone</a>
     </h1><div class="post-meta"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>Sammy</a></span>&nbsp;<span class="post-publish">published on <time datetime="2019-07-11">2019-07-11</time></span>&nbsp;<span class="post-category">included in <a href="/categories/hacking/"><i class="far fa-folder fa-fw"></i>hacking</a>&nbsp;<a href="/categories/writeups/"><i class="far fa-folder fa-fw"></i>writeups</a></span></div><div class="content">HTB Writeup: friendzone Introduction Friendzone was my third box to own on HackTheBox. I learnt alot from this box. Such as exploiting Local File Inclusion (LFI) to have PHP execute my reverse shell, to understanding more about DNS and the ways python imports libraries.

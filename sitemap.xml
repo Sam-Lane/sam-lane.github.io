@@ -2,18 +2,21 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
+            <loc>https://samlane.io/categories/</loc><lastmod>2021-02-27T13:15:40&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://samlane.io/categories/cloud/</loc><lastmod>2021-02-27T13:15:40&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://samlane.io/developing-inside-minikube/</loc><lastmod>2021-02-27T13:15:40&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://samlane.io/categories/development/</loc><lastmod>2021-02-27T13:15:40&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://samlane.io/tags/golang/</loc><lastmod>2021-02-27T13:15:40&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://samlane.io/tags/kubernetes/</loc><lastmod>2021-02-27T13:15:40&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://samlane.io/categories/kubernetes/</loc><lastmod>2021-02-27T13:15:40&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://samlane.io/posts/</loc><lastmod>2021-02-27T13:15:40&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://samlane.io/</loc><lastmod>2021-02-27T13:15:40&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://samlane.io/tags/security/</loc><lastmod>2021-02-27T13:15:40&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://samlane.io/tags/</loc><lastmod>2021-02-27T13:15:40&#43;00:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
             <loc>https://samlane.io/tags/aws/</loc><lastmod>2020-12-20T12:30:00&#43;01:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://samlane.io/categories/</loc><lastmod>2020-12-20T12:30:00&#43;01:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://samlane.io/tags/cloud/</loc><lastmod>2020-12-20T12:30:00&#43;01:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://samlane.io/categories/cloud/</loc><lastmod>2020-12-20T12:30:00&#43;01:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://samlane.io/categories/devops/</loc><lastmod>2020-12-20T12:30:00&#43;01:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://samlane.io/tags/kubernetes/</loc><lastmod>2020-12-20T12:30:00&#43;01:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://samlane.io/categories/kubernetes/</loc><lastmod>2020-12-20T12:30:00&#43;01:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://samlane.io/kubernetes-aws-static-ip-ingress/</loc><lastmod>2020-12-20T12:30:00&#43;01:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://samlane.io/posts/</loc><lastmod>2020-12-20T12:30:00&#43;01:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://samlane.io/</loc><lastmod>2020-12-20T12:30:00&#43;01:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://samlane.io/tags/security/</loc><lastmod>2020-12-20T12:30:00&#43;01:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://samlane.io/tags/</loc><lastmod>2020-12-20T12:30:00&#43;01:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://samlane.io/tags/terraform/</loc><lastmod>2020-12-20T12:30:00&#43;01:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://samlane.io/tags/exploits/</loc><lastmod>2020-06-26T10:03:58&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://samlane.io/categories/hacking/</loc><lastmod>2020-06-26T10:03:58&#43;03:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
