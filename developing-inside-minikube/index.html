@@ -120,6 +120,7 @@
     <img src="https://media.giphy.com/media/a5viI92PAF89q/giphy.gif"/> 
 </figure>
 
+<hr>
 <h2 id="solution">Solution</h2>
 <p>So, I need to mount a directory into minikube, create a pod that then mounts that directory inside of it. The pod should also not execute the code as that might cause it to crash but stay alive to allow me to <code>exec</code> in.</p>
 <h3 id="mounting-a-directory-into-minikube">Mounting a directory into minikube</h3>
@@ -132,7 +133,7 @@
 <pre class="chroma"><code class="language-shell" data-lang="shell">minikube start --mount<span class="o">=</span><span class="nb">true</span>
 </code></pre></td></tr></table>
 </div>
-</div><p>This by default mounts your <code>/Home</code> directory on your host into the node at <code>/minikube-host</code>. This is probably a bad idea if you have a large amount of data in your home directories. This can be solved by passing a second flag to minikube.</p>
+</div><p>This by default mounts your <code>/home</code> directory on your host into the node at <code>/minikube-host</code>. This is probably a bad idea if you have a large amount of data in your home directories. This can be solved by passing a second flag to minikube.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -176,6 +177,7 @@ minikube mount <span class="nv">$HOME</span>/go/src/project:/data
 <blockquote>
 <p>📌  NOTE: This process must stay alive for the mount to be accessible &hellip;</p>
 </blockquote>
+<hr>
 <h3 id="mounting-the-directory-into-a-pod">Mounting the directory into a pod</h3>
 <p>Now I have access to the data in the kube node I just have to mount it into the pod. Luckily kubernetes supports this with a <code>hostPath</code> volume type.
 <div class="details admonition warning open">
@@ -267,7 +269,8 @@ I need to declare a volume as part of my pod spec. I can create a <code>hostPath
 </span><span class="w">  </span><span class="k">restartPolicy</span><span class="p">:</span><span class="w"> </span>OnFailure<span class="w">
 </span></code></pre></td></tr></table>
 </div>
-</div><p>Now I can create the pod</p>
+</div><hr>
+<p>Now I can create the pod</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre class="chroma"><code><span class="lnt">1
@@ -296,6 +299,7 @@ go run main.go
 </figure>
 
 Now I can write code on my host and execute it freely from within a pod. 🎉</p>
+<hr>
 <h3 id="references">References</h3>
 <ul>
 <li><a href="https://stackoverflow.com/questions/48534980/mount-local-directory-into-pod-in-minikube">https://stackoverflow.com/questions/48534980/mount-local-directory-into-pod-in-minikube</a></li>

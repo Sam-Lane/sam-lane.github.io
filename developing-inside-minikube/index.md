@@ -6,6 +6,8 @@ Recently I have the need to write code that interacts with kubernetes outside an
 
 {{< figure src="https://media.giphy.com/media/a5viI92PAF89q/giphy.gif"  >}}
 
+---
+
 ## Solution
 So, I need to mount a directory into minikube, create a pod that then mounts that directory inside of it. The pod should also not execute the code as that might cause it to crash but stay alive to allow me to `exec` in.
 
@@ -16,7 +18,7 @@ So, I need to mount a directory into minikube, create a pod that then mounts tha
 minikube start --mount=true
 ```
 
-This by default mounts your `/Home` directory on your host into the node at `/minikube-host`. This is probably a bad idea if you have a large amount of data in your home directories. This can be solved by passing a second flag to minikube.
+This by default mounts your `/home` directory on your host into the node at `/minikube-host`. This is probably a bad idea if you have a large amount of data in your home directories. This can be solved by passing a second flag to minikube.
 
 ```shell
 minikube start --mount=true --mount-string=$HOME/go/src/project:/data
@@ -41,7 +43,7 @@ minikube mount $HOME/go/src/project:/data
 ```
 The problem with this is it runs as a process and must stay running for it to work.
 > 📌  NOTE: This process must stay alive for the mount to be accessible ...
-
+---
 ### Mounting the directory into a pod
 Now I have access to the data in the kube node I just have to mount it into the pod. Luckily kubernetes supports this with a `hostPath` volume type.
 {{< admonition type=warning title="hostPath" open=true >}}
@@ -88,7 +90,7 @@ spec:
       path: /data
   restartPolicy: OnFailure
 ```
-
+---
 Now I can create the pod
 ```bash
 kubectl apply -f development-pod.yaml
@@ -104,6 +106,7 @@ go run main.go
 {{< figure src="https://media.giphy.com/media/XreQmk7ETCak0/giphy.gif"  >}}
 Now I can write code on my host and execute it freely from within a pod. 🎉
 
+---
 ### References
 - https://stackoverflow.com/questions/48534980/mount-local-directory-into-pod-in-minikube
 - https://kubernetes.io/docs/concepts/workloads/pods/ 
